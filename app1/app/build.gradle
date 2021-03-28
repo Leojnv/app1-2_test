@@ -8,8 +8,13 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
+    id 'java'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
+
+group 'app1'
+mainClassName = 'app1.App'
 
 repositories {
     // Use JCenter for resolving dependencies.
@@ -28,4 +33,19 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'app1.App'
+}
+
+shadowJar{
+    baseName = 'app'
+    classifier = ''
+    archiveVersion = ''
+}
+
+/**
+ * tarea necesaria para heroku si optamos por la tarea de Shadowjar
+ * en el archivo Procfile debe estar el siguiente comando:
+ * web: java -jar build/libs/app.jar
+ */
+task stage {
+    dependsOn shadowJar
 }
